@@ -13,8 +13,8 @@ import java.net.Socket;
  *
  * @author ESTUDIANTE
  */
-public class Servidor {
-    public static void main (String[] args) {
+public class Servidor extends Thread{
+    public void run() {
         final int puerto = 5000;
         try {
             ServerSocket serverSocket = new ServerSocket(puerto);
