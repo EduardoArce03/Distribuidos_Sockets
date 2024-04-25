@@ -4,7 +4,7 @@
  */
 package Vista;
 
-import distribuidos_sockets_arce_bravo.Cliente;
+
 import distribuidos_sockets_arce_bravo.Servidor;
 import javax.swing.JTextArea;
 
@@ -140,8 +140,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
 
     private void btnIniciarServidorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIniciarServidorMouseClicked
         // TODO add your handling code here:
-        Servidor servidor = new Servidor();
-        servidor.start();
+        
     }//GEN-LAST:event_btnIniciarServidorMouseClicked
 
     private void btnServidorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnServidorActionPerformed
@@ -149,8 +148,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
         ServidorVista servidorVista = new ServidorVista();
         dkpPrincipal.add(servidorVista);
         servidorVista.setVisible(true);
-        Servidor servidor = new Servidor();
-        servidor.start();
+        servidorVista.iniciarServidor();
         
     }//GEN-LAST:event_btnServidorActionPerformed
 
@@ -159,7 +157,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
         ClienteVista clienteVista = new ClienteVista();
         dkpPrincipal.add(clienteVista);
         clienteVista.setVisible(true);
-        clienteVista.iniciarCliente();
+        
     }//GEN-LAST:event_btnClienteActionPerformed
 
     /**

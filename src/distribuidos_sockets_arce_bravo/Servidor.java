@@ -1,39 +1,50 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package distribuidos_sockets_arce_bravo;
-
+import Vista.ServidorVista;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-/**
- *
- * @author ESTUDIANTE
- */
-public class Servidor extends Thread{
-    public void run() {
-        final int puerto = 5000;
-        try {
-            ServerSocket serverSocket = new ServerSocket(puerto);
-            System.out.println("Servidor escuchando al puerto xdxd ");
-            while (true) {                
-                Socket clienteSocket = serverSocket.accept();
-                System.out.println("Nuevo cliente conectado ");
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(clienteSocket.getInputStream()));
-                //leer mensaje del cliente
-                String mensaje = bufferedReader.readLine();
-                System.out.println("Mensaje del cliente " + mensaje);
-                bufferedReader.close();
-                clienteSocket.close();
-                serverSocket.close();
-            }
-        } catch (Exception e) {
-            System.out.println("Pavlo aki ta fallando algo mmm " + e.getMessage());
-        }
+public class Servidor extends Thread {
+    
+    private ServidorVista servidorVista;
+
+    public Servidor(ServidorVista servidorVista) {
+        this.servidorVista = servidorVista;
     }
     
     
+    
+    public void run() {
+        
+        final int PUERTO = 5000;
+        try {
+            ServerSocket serverSocket = new ServerSocket(PUERTO);
+            System.out.println("Servidor esperando conexiones en el puerto " + PUERTO);
+            
+            while (true) {
+                Socket clienteSocket = serverSocket.accept();
+                System.out.println("Cliente conectado desde: " + clienteSocket.getInetAddress().getHostAddress());
+                
+                BufferedReader entrada = new BufferedReader(new InputStreamReader(clienteSocket.getInputStream()));
+                PrintWriter salida = new PrintWriter(clienteSocket.getOutputStream(), true);
+                
+                // Leer mensaje del cliente
+                String mensajeCliente = entrada.readLine();
+                System.out.println("Mensaje recibido del cliente: " + mensajeCliente);
+                servidorVista.llenarArea("\n" + mensajeCliente);
+                
+                // Enviar respuesta al cliente
+                salida.println("Mensaje recibido por el servidor: " + mensajeCliente);
+                
+                // Cerrar recursos
+                entrada.close();
+                salida.close();
+                clienteSocket.close();
+            }
+        } catch (Exception e) {
+            System.out.println("Error en el servidor: " + e.getMessage());
+        }
+    }
 }

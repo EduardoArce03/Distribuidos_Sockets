@@ -4,6 +4,7 @@
  */
 package Vista;
 
+import distribuidos_sockets_arce_bravo.Servidor;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
@@ -19,29 +20,21 @@ public class ServidorVista extends javax.swing.JInternalFrame {
      * Creates new form ServidorVista
      */
     final int puerto = 5000;
+    Servidor servidor;
     
     public ServidorVista() {
         initComponents();
     }
     
     public void iniciarServidor(){
-    try {
-        ServerSocket serverSocket = new ServerSocket(puerto);
-        System.out.println("Servidor escuchando al puerto xdxd ");
-        while (true) {                
-            Socket clienteSocket = serverSocket.accept();
-            System.out.println("Nuevo cliente conectado ");
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(clienteSocket.getInputStream()));
-            //leer mensaje del cliente
-            String mensaje = bufferedReader.readLine();
-            System.out.println("Mensaje del cliente " + mensaje);
-            bufferedReader.close();
-            clienteSocket.close();
-        }
-    } catch (Exception e) {
-        System.out.println("Pavlo aki ta fallando algo mmm " + e.getMessage());
+        servidor = new Servidor(this);
+        servidor.start();
+    
     }
-}
+    
+    public void llenarArea(String mensaje){
+        txtAreaMsg.append(mensaje);
+    }
 
 
     /**
@@ -54,24 +47,36 @@ public class ServidorVista extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtAreaMsg = new javax.swing.JTextArea();
 
-        jLabel1.setText("HOLA PAVLO");
+        jLabel1.setFont(new java.awt.Font("Gill Sans Ultra Bold Condensed", 0, 24)); // NOI18N
+        jLabel1.setText("Panel de Mensajes");
+
+        txtAreaMsg.setColumns(20);
+        txtAreaMsg.setRows(5);
+        jScrollPane1.setViewportView(txtAreaMsg);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(180, 180, 180)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(221, Short.MAX_VALUE))
+                .addGap(95, 95, 95)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(69, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(184, 184, 184))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(90, 90, 90)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(308, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 108, Short.MAX_VALUE))
         );
 
         pack();
@@ -80,5 +85,7 @@ public class ServidorVista extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    public javax.swing.JTextArea txtAreaMsg;
     // End of variables declaration//GEN-END:variables
 }
