@@ -5,12 +5,19 @@
 package ClienteVista;
 
 import distribuidos_sockets_arce_bravo.Cliente;
+import distribuidos_sockets_arce_bravo.PaqueteEnvios;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author eduar
  */
-public class VistaCliente extends javax.swing.JFrame {
+public  class VistaCliente extends javax.swing.JFrame implements Runnable{
 
     /**
      * Creates new form VistaCliente
@@ -21,6 +28,8 @@ public class VistaCliente extends javax.swing.JFrame {
     
     public VistaCliente() {
         initComponents();
+        Thread thread = new Thread(this);
+        thread.start();
     }
     
     public void iniciarCliente() {
@@ -180,9 +189,30 @@ public class VistaCliente extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea txtChatArea;
+    public javax.swing.JTextArea txtChatArea;
     public javax.swing.JTextField txtIp;
     public javax.swing.JTextField txtMensaje;
     public javax.swing.JTextField txtNick;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void run() {
+       try {
+            ServerSocket servidorCliente = new ServerSocket(9090);
+            Socket cliente;
+            PaqueteEnvios paqueteRecibido;
+            while (true) {                
+                cliente = servidorCliente.accept();
+                ObjectInputStream flujoEntrada = new ObjectInputStream(cliente.getInputStream());
+                paqueteRecibido=(PaqueteEnvios) flujoEntrada.readObject();
+                txtChatArea.append("\n" + "Mensaje de: " + paqueteRecibido.getNick() + ": " + paqueteRecibido.getMensaje());
+            }
+            
+        } catch (IOException ex) {
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+       
 }

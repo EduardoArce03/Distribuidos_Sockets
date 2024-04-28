@@ -2,10 +2,15 @@ package distribuidos_sockets_arce_bravo;
 import ClienteVista.VistaCliente;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
+import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Cliente extends Thread{
     
@@ -15,10 +20,13 @@ public class Cliente extends Thread{
         this.clienteVista = clienteVista;
     }
     
-    public void run() {
-        final String SERVIDOR = "localhost";
-        final int PUERTO = 5000;
+    public void hiloInterfaz(){
         
+    }
+    
+    public void run() {
+        final String SERVIDOR = "18.223.116.83";
+        final int PUERTO = 5000;
         
         
         try {
@@ -34,6 +42,7 @@ public class Cliente extends Thread{
             paqueteEnvios.setNick(clienteVista.txtNick.getText());
             paqueteEnvios.setMensaje(clienteVista.txtMensaje.getText());
             
+            
             ObjectOutputStream paqueteDatos = new ObjectOutputStream(clienteSocket.getOutputStream());
             paqueteDatos.writeObject(paqueteEnvios);
             
@@ -44,6 +53,4 @@ public class Cliente extends Thread{
         }
     }
 
-    public Cliente() {
-    }
 }
