@@ -1,5 +1,4 @@
 package distribuidos_sockets_arce_bravo;
-import ClienteVista.ClienteVista;
 import ClienteVista.VistaCliente;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;

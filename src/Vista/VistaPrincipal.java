@@ -5,7 +5,6 @@
 package Vista;
 
 
-import ClienteVista.ClienteVista;
 import distribuidos_sockets_arce_bravo.Servidor;
 import javax.swing.JTextArea;
 
@@ -155,9 +154,9 @@ public class VistaPrincipal extends javax.swing.JFrame {
 
     private void btnClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClienteActionPerformed
         // TODO add your handling code here:
-        ClienteVista clienteVista = new ClienteVista();
-        dkpPrincipal.add(clienteVista);
-        clienteVista.setVisible(true);
+        //ClienteVista clienteVista = new ClienteVista();
+        //dkpPrincipal.add(clienteVista);
+        //clienteVista.setVisible(true);
         
     }//GEN-LAST:event_btnClienteActionPerformed
 
