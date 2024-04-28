@@ -5,6 +5,7 @@
 package Vista;
 
 
+import ClienteVista.ClienteVista;
 import distribuidos_sockets_arce_bravo.Servidor;
 import javax.swing.JTextArea;
 
