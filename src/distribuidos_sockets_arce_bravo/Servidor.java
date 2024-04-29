@@ -11,6 +11,7 @@ import java.net.Socket;
 public class Servidor extends Thread {
     
     private ServidorVista servidorVista;
+    private Encriptacion encriptacion;
 
     public Servidor(ServidorVista servidorVista) {
         this.servidorVista = servidorVista;
@@ -41,6 +42,7 @@ public class Servidor extends Thread {
                 
                 servidorVista.llenarArea("\n" + nick + ": " + mensaje + " para " + ip);
                 
+                
                 /*BufferedReader entrada = new BufferedReader(new InputStreamReader(clienteSocket.getInputStream()));
                 PrintWriter salida = new PrintWriter(clienteSocket.getOutputStream(), true);
                 
@@ -57,6 +59,9 @@ public class Servidor extends Thread {
                 salida.close();*/
                 
                 //Para crear un puente entre destino y servidor
+                encriptacion = new Encriptacion(paqueteRecibido.getMensaje(),paqueteRecibido.getClave());
+                String msgNuevo = encriptacion.desencriptarMensaje(paqueteRecibido.getMensaje());
+                paqueteRecibido.setMensaje(msgNuevo);
                 Socket destinatario = new Socket(ip, 9090);
                 ObjectOutputStream paqueteReenvio = new ObjectOutputStream(destinatario.getOutputStream());       
                 paqueteReenvio.writeObject(paqueteRecibido);

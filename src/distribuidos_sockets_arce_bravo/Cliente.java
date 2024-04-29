@@ -11,11 +11,14 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
 
 public class Cliente extends Thread{
     
     private VistaCliente clienteVista;
-    
+    private Encriptacion encriptacion;
+    KeyGenerator keyGenerator;
     public Cliente(VistaCliente clienteVista) {
         this.clienteVista = clienteVista;
     }
@@ -36,11 +39,17 @@ public class Cliente extends Thread{
             //System.out.println("");
             //out.writeUTF(clienteVista.txtMensaje.getText());
             //System.out.println(clienteVista.txtMensaje.getText());
-            
+            KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
+            keyGenerator.init(256);
+            SecretKey claveSecreta = keyGenerator.generateKey();
+            String mensaje = clienteVista.txtMensaje.getText();
+            encriptacion = new Encriptacion(mensaje, claveSecreta);
+            String msgEncriptado = encriptacion.encriptarMensaje();
             PaqueteEnvios paqueteEnvios = new PaqueteEnvios();
+            paqueteEnvios.setClave(claveSecreta);
             paqueteEnvios.setIp(clienteVista.txtIp.getText());
             paqueteEnvios.setNick(clienteVista.txtNick.getText());
-            paqueteEnvios.setMensaje(clienteVista.txtMensaje.getText());
+            paqueteEnvios.setMensaje(msgEncriptado);
             
             
             ObjectOutputStream paqueteDatos = new ObjectOutputStream(clienteSocket.getOutputStream());
@@ -52,5 +61,4 @@ public class Cliente extends Thread{
             System.out.println("Error en el cliente: " + e.getMessage());
         }
     }
-
 }

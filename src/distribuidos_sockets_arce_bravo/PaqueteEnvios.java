@@ -5,6 +5,7 @@
 package distribuidos_sockets_arce_bravo;
 
 import java.io.Serializable;
+import javax.crypto.SecretKey;
 
 /**
  *
@@ -12,6 +13,7 @@ import java.io.Serializable;
  */
 public class PaqueteEnvios implements Serializable{
     private String nick, mensaje, ip;
+    private SecretKey clave;
 
     public String getNick() {
         return nick;
@@ -36,6 +38,16 @@ public class PaqueteEnvios implements Serializable{
     public void setIp(String ip) {
         this.ip = ip;
     }
+
+    public SecretKey getClave() {
+        return clave;
+    }
+
+    public void setClave(SecretKey clave) {
+        this.clave = clave;
+    }
+    
+    
     
     
 }

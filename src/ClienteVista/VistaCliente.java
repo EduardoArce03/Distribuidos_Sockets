@@ -5,6 +5,7 @@
 package ClienteVista;
 
 import distribuidos_sockets_arce_bravo.Cliente;
+import distribuidos_sockets_arce_bravo.Encriptacion;
 import distribuidos_sockets_arce_bravo.PaqueteEnvios;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -25,6 +26,7 @@ public  class VistaCliente extends javax.swing.JFrame implements Runnable{
     Cliente cliente;
     private String SERVIDOR = "localhost";
     private int PUERTO = 5000;
+    private Encriptacion encriptacion;
     
     public VistaCliente() {
         initComponents();
@@ -196,23 +198,25 @@ public  class VistaCliente extends javax.swing.JFrame implements Runnable{
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void run() {
-       try {
-            ServerSocket servidorCliente = new ServerSocket(9090);
-            Socket cliente;
-            PaqueteEnvios paqueteRecibido;
-            while (true) {                
-                cliente = servidorCliente.accept();
-                ObjectInputStream flujoEntrada = new ObjectInputStream(cliente.getInputStream());
-                paqueteRecibido=(PaqueteEnvios) flujoEntrada.readObject();
-                txtChatArea.append("\n" + "Mensaje de: " + paqueteRecibido.getNick() + ": " + paqueteRecibido.getMensaje());
-            }
+   public void run() {
+    try {
+        ServerSocket servidorCliente = new ServerSocket(9090);
+        Socket cliente;
+        PaqueteEnvios paqueteRecibido;
+        
+        while (true) {                
+            cliente = servidorCliente.accept();
+            ObjectInputStream flujoEntrada = new ObjectInputStream(cliente.getInputStream());
+            paqueteRecibido = (PaqueteEnvios) flujoEntrada.readObject();
             
-        } catch (IOException ex) {
-            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+            txtChatArea.append("\n" + "Mensaje de: " + paqueteRecibido.getNick() + ": " + paqueteRecibido.getMensaje());
         }
+        
+    } catch (IOException ex) {
+        Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (ClassNotFoundException ex) {
+        Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
     }
-       
+}
+
 }
