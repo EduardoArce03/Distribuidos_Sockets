@@ -13,6 +13,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTextArea;
 
 /**
  *
@@ -27,17 +28,19 @@ public  class VistaCliente extends javax.swing.JFrame implements Runnable{
     private String SERVIDOR = "localhost";
     private int PUERTO = 5000;
     private Encriptacion encriptacion;
-    
+    private JTextArea area;
     public VistaCliente() {
         initComponents();
         Thread thread = new Thread(this);
         thread.start();
+        area = txtChatArea;
+        txtChatArea.setEditable(false);
     }
     
     public void iniciarCliente() {
         cliente = new Cliente(this); // Pasar la referencia de ClienteVista al Cliente
-        cliente.start(); // Iniciar el hilo del cliente
-    }
+        cliente.start();
+            }
 
 
     /**
@@ -145,6 +148,7 @@ public  class VistaCliente extends javax.swing.JFrame implements Runnable{
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarActionPerformed
+        txtChatArea.append("\n" + " Yo :" + txtMensaje.getText() );
         iniciarCliente();
     }//GEN-LAST:event_btnEnviarActionPerformed
 
