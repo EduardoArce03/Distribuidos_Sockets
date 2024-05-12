@@ -28,7 +28,7 @@ public class Cliente extends Thread{
     }
     
     public void run() {
-        final String SERVIDOR = "192.168.0.107";
+        final String SERVIDOR = "192.168.219.13";
         final int PUERTO = 5000;
         
         
